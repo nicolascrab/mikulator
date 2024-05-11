@@ -47,7 +47,7 @@ class Calculator {
             case '*':
                 computation = prev * current;
                 break
-            case '+':
+            case '÷':
                 computation = prev / current;
                 break
             default: return;
@@ -57,9 +57,16 @@ class Calculator {
         this.previousOperand = '';
     }
 
+    getDisplayNumber(number) {
+        return number;
+    }
+
     updateDisplay() {
-        this.currentOperandTextElement.innerText = this.currentOperand;
-        this.previousOperandTextElement.innerText = this.previousOperand;
+        this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand);
+        this.previousOperandTextElement.innerText = this.previousOperand; // not sure if this one is needed, but if I delete it, the previous operand doesn't get cleared.
+        if (this.operation != null) {
+            this.previousOperandTextElement.innerText = `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`
+        }
     }
 }
 
