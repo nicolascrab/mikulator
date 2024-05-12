@@ -58,14 +58,28 @@ class Calculator {
     }
 
     getDisplayNumber(number) {
-        return number;
+        const stringNumber = number.toString(); // convert number to a string, so we can split into two parts later
+        const integerDigits = parseFloat(stringNumber.split('.')[0]); // puts the number into an array. the 0 index in that array is everything that's behind the decimal point. so that's an integer
+        const decimalDigits = stringNumber.split('.')[1]; // the 0 index in that array is eveything after the decimal points.
+        let integerDisplay;
+        if (isNaN(integerDigits)) { // if someone inputs nothing or a decimal point
+            integerDisplay = '';
+        } else {
+            integerDisplay = integerDigits.toLocaleString('en', {maximumFractionDigits: 0});
+        }
+        if (decimalDigits != null) {
+            return `${integerDisplay}.${decimalDigits}`;
+        } else {
+            return integerDisplay;
+        }
     }
 
     updateDisplay() {
         this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand);
-        this.previousOperandTextElement.innerText = this.previousOperand; // not sure if this one is needed, but if I delete it, the previous operand doesn't get cleared.
         if (this.operation != null) {
             this.previousOperandTextElement.innerText = `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`
+        } else {
+            this.previousOperandTextElement.innerText = '';
         }
     }
 }
